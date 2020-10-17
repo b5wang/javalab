@@ -66,5 +66,8 @@ class Money {
         System.out.println("m1 == m7: " + m1.equals(m7));
         System.out.println("m2 == m6: " + m2.equals(m6));
         System.out.println("m2 == m7: " + m2.equals(m7));
+
+        System.out.println("hash value of m1: " + m1.hashCode());
+        System.out.println("hash value of m4: " + m4.hashCode());
     }
 }
