@@ -1,4 +1,4 @@
-package com.b5wang.javalab.java8recipes.concurrency;
+package com.b5wang.javalab.java8recipes.concurrency.inturrupt;
 
 public class HelloIntereupt implements Runnable{
     @Override
