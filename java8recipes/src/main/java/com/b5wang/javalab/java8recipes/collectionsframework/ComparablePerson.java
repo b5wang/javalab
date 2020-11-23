@@ -72,7 +72,7 @@ class ComparablePerson implements Comparable<ComparablePerson>{
 
         Set<ComparablePerson> set1 = new HashSet<>();
         set1.add(cp1);
-        set1.add(cp1);
+        set1.add(cp2);
         set1.add(cp3);
         System.out.println(Arrays.toString(set1.toArray()));// Sequence is based on hashCode mode array length
 

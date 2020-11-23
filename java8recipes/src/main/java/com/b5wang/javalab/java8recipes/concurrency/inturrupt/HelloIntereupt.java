@@ -4,7 +4,7 @@ public class HelloIntereupt implements Runnable{
     @Override
     public void run() {
         for(int i = 0; i < 50000; i++){
-            if(Thread.currentThread().isInterrupted()){
+            if(Thread.interrupted()){
                 System.out.println("Thread exit! (Thread is interrupted)");
                 return;
             }
