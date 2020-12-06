@@ -1,5 +1,8 @@
 package com.b5wang.javalab.java8recipes.concurrency.deadlock;
 
+/**
+ * 2 threads interleave, go to deadlock.
+ * */
 class DeadLockJobs {
 
     static class Job{
