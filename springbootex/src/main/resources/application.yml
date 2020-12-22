@@ -9,3 +9,8 @@ management:  #actuator
       base-path: /
       exposure:
         include: "*"
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6666
