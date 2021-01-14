@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class AsyncService {
 
-    @Async
+    @Async("asynTasksPool")
     public CompletableFuture<Boolean> process(int id) throws InterruptedException {
         System.out.println(String.format("Job[%d] start ... --- %s",id,Thread.currentThread().getName()));
         Thread.sleep(1000);

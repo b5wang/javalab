@@ -21,25 +21,10 @@ public class TestCode {
     }
 
     public static void main(String[] args){
-        List<String> list = Collections.synchronizedList(new LinkedList<>());
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        list.add("4");
-        list.add("5");
 
-        Map<String,String> map = new HashMap<>();
+        long i = 1;
 
-
-        System.out.println(list.toString());
-        for(String id : list){
-            if(id.equals("3")){
-                //list.remove(id);
-            }
-        }
-        System.out.println(list.toString());
-
-        System.out.println(map.values().stream().allMatch(s->s.length() > 0));
+        System.out.println("" + (i % 5000));
 
     }
 
