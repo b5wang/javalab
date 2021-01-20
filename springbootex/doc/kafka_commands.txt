@@ -1,0 +1,11 @@
+# list all topics
+./kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+
+# topic detail 
+./kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic topic-1
+
+# 查看topic中积压的消息数
+./kafka-consumer-groups.sh --new-consumer --bootstrap-server 127.0.0.1:9292 --group lx_test --describe
+
+# 
+./kafka-consumer-groups.sh --zookeeper 127.0.0.1:2181 --group console-consumer-11967 --describe

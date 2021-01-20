@@ -37,20 +37,6 @@ public class Application {
             for (String beanName : beanNames) {
                 log.info("{}",beanName);
             }
-
-//            GetBeanService bean1 = (GetBeanService)ctx.getBean("getBeanService");
-//            log.info("Get bean: {}",bean1.hello());
-//
-//            GetBeanService bean2 = (GetBeanService)ctx.getBean("getBeanServiceName");
-//            log.info("Get bean: {}",bean2.hello());
-//
-//            GetBeanService bean3 = (GetBeanService)ctx.getBean("getBeanServiceQualifier");
-//            log.info("Get bean: {}",bean3.hello());
-//
-//            GetBeanService bean4 = ctx.getBean(GetBeanService.class);
-//            log.info("Get bean: {}",bean4.hello());
-
-
         };
     }
 
