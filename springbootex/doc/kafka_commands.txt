@@ -3,9 +3,12 @@
 
 # topic detail 
 ./kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic topic-1
+windows\kafka-topics.bat --zookeeper 127.0.0.1:2181 --describe --topic topic-1
 
 # 查看topic中积压的消息数
-./kafka-consumer-groups.sh --new-consumer --bootstrap-server 127.0.0.1:9292 --group lx_test --describe
+./kafka-consumer-groups.sh --new-consumer --bootstrap-server 127.0.0.1:9292 --group msg-group-2 --describe
+windows\kafka-consumer-groups.bat --bootstrap-server 127.0.0.1:9292 --group msg-group-2 --describe
 
-# 
-./kafka-consumer-groups.sh --zookeeper 127.0.0.1:2181 --group console-consumer-11967 --describe
+# Check message
+./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9092 --describe --group msg-group-2
+windows\kafka-consumer-groups.bat --bootstrap-server 127.0.0.1:9092 --describe --group msg-group-1

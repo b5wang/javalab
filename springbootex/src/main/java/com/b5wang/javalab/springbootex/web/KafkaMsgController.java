@@ -1,5 +1,6 @@
 package com.b5wang.javalab.springbootex.web;
 
+import com.b5wang.javalab.springbootex.config.KafkaTopicConfig;
 import com.b5wang.javalab.springbootex.model.KafkaMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,7 +18,14 @@ public class KafkaMsgController {
     @ResponseBody
     public String sendMsg(@RequestBody KafkaMsg msg){
         System.out.println("Receive msg: " + msg.toString());
-        kafkaTemplate.send(msg.getTopic(),msg.getContent());
+
+        if(KafkaTopicConfig.TOPIC_1.equals(msg.getTopic())){
+            kafkaTemplate.send(msg.getTopic(),msg.getContent());
+        }else{
+            String key = msg.getKey() != null? msg.getKey() : msg.getPartition().toString();
+            kafkaTemplate.send(msg.getTopic(),msg.getPartition(),msg.getKey(),msg.getContent());
+        }
+
         return "OK";
     }
 

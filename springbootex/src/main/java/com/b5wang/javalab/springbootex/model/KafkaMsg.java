@@ -7,6 +7,10 @@ public class KafkaMsg {
 
     private String topic;
 
+    private Integer partition;
+
+    private String key;
+
     private String content;
 
 }
