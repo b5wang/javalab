@@ -1,6 +1,5 @@
 server:
   port: 8089
-
 management:  #actuator
   server:
     port: 8090
@@ -9,6 +8,5 @@ management:  #actuator
       base-path: /
       exposure:
         include: "*"
-
 kafka:
   bootstrapAddress: 127.0.0.1:9092
