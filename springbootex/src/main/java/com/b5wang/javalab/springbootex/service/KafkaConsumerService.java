@@ -4,7 +4,11 @@ import com.b5wang.javalab.springbootex.config.KafkaConsumerConfig;
 import com.b5wang.javalab.springbootex.config.KafkaTopicConfig;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
+/**
+ * topic-1, 1 partition, it only can support 1 consumer
+ * topic-2, 3 partitions, it can support 3 consumers at most
+ *
+ * */
 @Service
 public class KafkaConsumerService {
 
