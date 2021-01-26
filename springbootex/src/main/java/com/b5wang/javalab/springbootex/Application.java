@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.concurrent.Executor;
 
 @SpringBootApplication
-@EnableAsync
 @Slf4j
 public class Application {
 
@@ -35,19 +34,8 @@ public class Application {
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
-                log.info("{}",beanName);
+                //log.info("{}",beanName);
             }
         };
-    }
-
-    @Bean("asynTasksPool")
-    public Executor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(20);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("async-");
-        executor.initialize();
-        return executor;
     }
 }
