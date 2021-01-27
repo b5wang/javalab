@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.b5wang.javalab</groupId>
-    <artifactId>springbootex</artifactId>
+    <artifactId>springbootex-partner</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -74,25 +74,6 @@
             <artifactId>jquery</artifactId>
             <version>3.5.1</version>
         </dependency>
-        <!-- spring webClient -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-        <!-- spring jpa:hibernate:mysql
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency> -->
-        <!-- spring-boot redis
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency> -->
     </dependencies>
 
     <build>

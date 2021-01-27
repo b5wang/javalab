@@ -11,13 +11,13 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class AsyncConfig {
 
-    @Bean("asynTasksPool")
-    public Executor taskExecutor() {
+    @Bean("asyncTasksPool")
+    public Executor asyncTasksPool() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(20);
         executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("async-");
+        executor.setThreadNamePrefix("async-task-");
         executor.initialize();
         return executor;
     }

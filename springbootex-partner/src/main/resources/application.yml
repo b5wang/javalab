@@ -1,0 +1,12 @@
+server:
+  port: 8091
+management:  #actuator
+  server:
+    port: 8092
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"
+kafka:
+  bootstrapAddress: 127.0.0.1:9092
