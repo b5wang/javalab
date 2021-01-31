@@ -10,7 +10,7 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 public class KafkaTopicConfig {
 
     public static final String TOPIC_1 = "topic-1";

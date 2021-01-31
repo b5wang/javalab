@@ -18,8 +18,8 @@ import java.util.Map;
 /**
  * @EnableKafka is used to detect @KafkaListener annotation on spring managed beans.
  * */
-@EnableKafka
-@Configuration
+//@EnableKafka
+//@Configuration
 public class KafkaConsumerConfig {
 
     public static final String GROUP_ID_1 = "msg-group-1";// topic-1

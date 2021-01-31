@@ -1,0 +1,8 @@
+docker run -d --name redis-local -p 6379:6379 redis --requirepass "mypassword"
+
+docker run -d --name redis-local -p 6379:6379 redis
+
+docker run -d -p <PORT_OF_YOUR_LOCAL>:6379 redis
+
+Redis GUI client: https://www.electronjs.org/apps/anotherredisdesktopmanager
+

@@ -2,8 +2,10 @@ package com.b5wang.javalab.springbootex.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Booking {
+public class Booking implements Serializable {
 
     private String ticketId;
 
