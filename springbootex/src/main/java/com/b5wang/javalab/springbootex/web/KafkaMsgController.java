@@ -19,7 +19,7 @@ public class KafkaMsgController {
     public String sendMsg(@RequestBody KafkaMsg msg){
         System.out.println("Receive msg: " + msg.toString());
 
-        if(KafkaTopicConfig.TOPIC_1.equals(msg.getTopic())){
+        if(KafkaTopicConfig.TOPIC_1.equals(msg.getTopic()) || KafkaTopicConfig.TOPIC_3.equals(msg.getTopic())){
             kafkaTemplate.send(msg.getTopic(),msg.getContent());
         }else{
             String key = msg.getKey() != null? msg.getKey() : msg.getPartition().toString();

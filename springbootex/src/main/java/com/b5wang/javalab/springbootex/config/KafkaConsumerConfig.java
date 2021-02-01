@@ -1,5 +1,6 @@
 package com.b5wang.javalab.springbootex.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,17 +15,21 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @EnableKafka is used to detect @KafkaListener annotation on spring managed beans.
  * */
-//@EnableKafka
-//@Configuration
+@Slf4j
+@EnableKafka
+@Configuration
 public class KafkaConsumerConfig {
 
-    public static final String GROUP_ID_1 = "msg-group-1";// topic-1
+    public static final String GROUP_ID_1 = "msg-group-1";// topic-1, 1 partition, 1 consumer
 
-    public static final String GROUP_ID_2 = "msg-group-2";// topic-2
+    public static final String GROUP_ID_2 = "msg-group-2";// topic-2, 3 partitions, 3 consumers with the same groupId
+
+    public static final String GROUP_ID_3_PREFIX = "topic-3-consumer-";// topic-3, 1 partitions, 3 consumers with the different groupId
 
     @Value(value = "${kafka.bootstrapAddress}")
     private String bootstrapAddress;
@@ -32,7 +37,7 @@ public class KafkaConsumerConfig {
     public Map<String, Object> getCommonFactoryConfig() {
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "100");
         properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -45,25 +50,21 @@ public class KafkaConsumerConfig {
 
     private ConsumerFactory<String, String> consumerFactory0() {
         Map<String, Object> properties = getCommonFactoryConfig();
-        //properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID_1);
         return new DefaultKafkaConsumerFactory<String, String>(properties);
     }
 
     private ConsumerFactory<String, String> consumerFactory1() {
         Map<String, Object> properties = getCommonFactoryConfig();
-        //properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID_2);
         return new DefaultKafkaConsumerFactory<String, String>(properties);
     }
 
     private ConsumerFactory<String, String> consumerFactory2() {
         Map<String, Object> properties = getCommonFactoryConfig();
-        //properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID_2);
         return new DefaultKafkaConsumerFactory<String, String>(properties);
     }
 
     private ConsumerFactory<String, String> consumerFactory3() {
         Map<String, Object> properties = getCommonFactoryConfig();
-        //properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID_2);
         return new DefaultKafkaConsumerFactory<String, String>(properties);
     }
 
@@ -101,12 +102,40 @@ public class KafkaConsumerConfig {
     }
 
     /**
-     * For listener-3
+     * For listener-2
      * */
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory3() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
         factory.setConsumerFactory(consumerFactory3());
+        factory.getContainerProperties().setPollTimeout(4000);
+        return factory;
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory4() {
+        String groupId = GROUP_ID_3_PREFIX + UUID.randomUUID().toString();
+        log.info("--- generate topic-3 listeners groupId: {}",groupId);
+        Map<String, Object> properties = getCommonFactoryConfig();
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        ConsumerFactory<String, String> consumerFactory = new DefaultKafkaConsumerFactory<String, String>(properties);
+
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+        factory.setConsumerFactory(consumerFactory);
+        factory.getContainerProperties().setPollTimeout(4000);
+        return factory;
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory5() {
+        String groupId = GROUP_ID_3_PREFIX + UUID.randomUUID().toString();
+        log.info("--- generate topic-3 listeners groupId: {}",groupId);
+        Map<String, Object> properties = getCommonFactoryConfig();
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        ConsumerFactory<String, String> consumerFactory = new DefaultKafkaConsumerFactory<String, String>(properties);
+
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+        factory.setConsumerFactory(consumerFactory);
         factory.getContainerProperties().setPollTimeout(4000);
         return factory;
     }

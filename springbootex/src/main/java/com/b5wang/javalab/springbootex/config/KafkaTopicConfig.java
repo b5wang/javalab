@@ -10,12 +10,14 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Configuration
+@Configuration
 public class KafkaTopicConfig {
 
     public static final String TOPIC_1 = "topic-1";
 
     public static final String TOPIC_2 = "topic-2";
+
+    public static final String TOPIC_3 = "topic-3";
 
     @Value(value = "${kafka.bootstrapAddress}")
     private String bootstrapAddress;
@@ -35,6 +37,11 @@ public class KafkaTopicConfig {
     @Bean
     public NewTopic topic2() {
         return new NewTopic(TOPIC_2, 3, (short) 1);
+    }
+
+    @Bean
+    public NewTopic topic3() {
+        return new NewTopic(TOPIC_3, 1, (short) 1);
     }
 
 }
