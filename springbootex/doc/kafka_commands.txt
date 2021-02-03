@@ -1,14 +1,42 @@
 # list all topics
 ./kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
 
+
 # topic detail 
-./kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic topic-1
-windows\kafka-topics.bat --zookeeper 127.0.0.1:2181 --describe --topic topic-1
+./kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic webtrade-notify
+kafka-topics.bat --zookeeper 127.0.0.1:2181 --describe --topic webtrade-notify
+
+./kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+kafka-topics.bat --zookeeper 127.0.0.1:2181 --list
+
 
 # 查看topic中积压的消息数
-./kafka-consumer-groups.sh --new-consumer --bootstrap-server 127.0.0.1:9292 --group msg-group-2 --describe
+# Check message
+./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9292 --group msg-group-2 --describe
 windows\kafka-consumer-groups.bat --bootstrap-server 127.0.0.1:9292 --group msg-group-2 --describe
 
-# Check message
-./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9092 --describe --group msg-group-2
+./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9092 --describe --group webtrade-consumer-1881838b-9aff-4242-ace3-c1c9c9208db8
 windows\kafka-consumer-groups.bat --bootstrap-server 127.0.0.1:9092 --describe --group msg-group-1
+
+
+# List all groups
+./kafka-consumer-groups.sh --list --bootstrap-server 127.0.0.1:9092
+
+
+# consumer details
+./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9092 --describe --group webtrade-notify
+# delete consumer group
+./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9092 --delete --group <groupId>
+
+
+
+# How to delete topic: 
+# delte entire topic
+./kafka-topics.sh --delete --zookeeper 127.0.0.1:2181 --topic webtrade-notify
+kafka-topics.bat --delete --zookeeper 127.0.0.1:2181 --topic webtrade-notify
+
+
+# Delete group
+./kafka-consumer-groups.sh --bootstrap-server 127.0.0.1:9092 --delete --group 
+
+
