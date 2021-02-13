@@ -1,7 +1,8 @@
 package com.b5wang.javalab.springbootex.web;
 
-import com.b5wang.javalab.springbootex.config.RedisConfig;
 import com.b5wang.javalab.springbootex.model.Booking;
+import com.b5wang.javalab.springbootex.task.ReadKeyFromRedishHashTask;
+import com.b5wang.javalab.springbootex.task.WriteKeyToRedisTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -10,12 +11,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Redis 5种数据结构 及使用场景分析 - https://zhuanlan.zhihu.com/p/145384563
@@ -26,10 +26,18 @@ import java.util.UUID;
 @RestController
 public class RedisController {
 
+    private static final int THREAD_POOL_SIZE = 500;
+
     private static final String KEY_SET_PREFIX = "IDSET.";
 
+    private static final String KEY_REDIS_MAP_NAME = "redis.map";
+
+    private static final String KEY_REDIS_PREFIX = "key.";
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+
     @Autowired
-    private RedisTemplate<String, Serializable> redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -86,7 +94,7 @@ public class RedisController {
         /**
          * Redis string operations
          * */
-        BoundHashOperations<String,String,String> boundHashOperations = stringRedisTemplate.boundHashOps("redis.map");
+        BoundHashOperations<String,String,String> boundHashOperations = stringRedisTemplate.boundHashOps(KEY_REDIS_MAP_NAME);
         boundHashOperations.put("key-1","value-1");
         boundHashOperations.put("key-2","value-2");
         boundHashOperations.put("key-3","value-3");
@@ -119,10 +127,62 @@ public class RedisController {
             log.info("cache.bookings member: {}",entry.getValue());
         }
 
-
-
         return "Done!";
     }
 
+    /**
+     * 测试设计：
+     * 1. 生成5000个key，存放在hash中
+     * 2. 多线程读取这5000个key,看要花多久时间
+     * */
+    @RequestMapping(value="/hashReadSpeed",method = RequestMethod.GET)
+    @ResponseBody
+    public String hashReadSpeed() throws InterruptedException, ExecutionException {
+        List<ReadKeyFromRedishHashTask> readKeyFromRedishHashTasks = new LinkedList<>();
+
+        BoundHashOperations<String,String,String> redisMap = redisTemplate.boundHashOps(KEY_REDIS_MAP_NAME);
+        long t1 = System.currentTimeMillis();
+        for(int i = 0; i < 5000; i++){
+            String uuid = UUID.randomUUID().toString();
+            redisMap.put(uuid,uuid);
+            readKeyFromRedishHashTasks.add(new ReadKeyFromRedishHashTask(redisTemplate, KEY_REDIS_MAP_NAME, uuid));
+        }
+        long t2 = System.currentTimeMillis();
+
+        List<Future<String>> futureList = executorService.invokeAll(readKeyFromRedishHashTasks);
+        for(Future<String> future:futureList){
+            future.get();
+        }
+        long t3 = System.currentTimeMillis();
+        long putTime = t2 - t1;
+        long getTime = t3 - t2;
+
+        log.info("Put time: {}, Get time: {}",putTime,getTime);
+        return "Ok";
+    }
+
+    /**
+     * 5000 key 多线程写入
+     * */
+    @RequestMapping(value="/keyWriteSpeed",method = RequestMethod.GET)
+    @ResponseBody
+    public String keyWriteSpeed() throws InterruptedException, ExecutionException {
+        List<WriteKeyToRedisTask> writeKeyToRedisTaskList = new LinkedList<>();
+        for(int i = 0; i < 5000; i++){
+            String key = KEY_REDIS_PREFIX + UUID.randomUUID().toString();
+            String value = "Y";
+            writeKeyToRedisTaskList.add(new WriteKeyToRedisTask(stringRedisTemplate,key,value));
+        }
+
+        long t1 = System.currentTimeMillis();
+        List<Future<Boolean>> futureList = executorService.invokeAll(writeKeyToRedisTaskList);
+        for(Future<Boolean> future:futureList){
+            future.get();
+        }
+        long t2 = System.currentTimeMillis();
+        long time = t2 - t1;
+        log.info("Write time: {}", time);
+        return "Ok";
+    }
 
 }

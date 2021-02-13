@@ -1,12 +1,7 @@
 package com.b5wang.javalab;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestCode {
 
@@ -21,11 +16,7 @@ public class TestCode {
     }
 
     public static void main(String[] args){
-
-        long i = 1;
-
-        System.out.println("" + (i % 5000));
-
+        System.out.println(UUID.randomUUID());
     }
 
     private static int fun3(int N, int K){

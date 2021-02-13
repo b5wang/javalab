@@ -21,8 +21,8 @@ import java.util.UUID;
  * @EnableKafka is used to detect @KafkaListener annotation on spring managed beans.
  * */
 @Slf4j
-@EnableKafka
-@Configuration
+//@EnableKafka
+//@Configuration
 public class KafkaConsumerConfig {
 
     public static final String GROUP_ID_1 = "msg-group-1";// topic-1, 1 partition, 1 consumer
