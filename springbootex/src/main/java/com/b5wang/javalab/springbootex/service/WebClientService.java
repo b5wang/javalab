@@ -1,5 +1,6 @@
 package com.b5wang.javalab.springbootex.service;
 
+import com.b5wang.javalab.springbootex.config.Constant;
 import com.b5wang.javalab.springbootex.model.Booking;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -22,8 +23,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class WebClientService {
-
-    private static final String URL_BOOKING_TICKETS = "http://127.0.0.1:8091/booking/tickets";
 
     private WebClient sbexPartnerClient;
 
@@ -49,7 +48,7 @@ public class WebClientService {
 
     @Async("asyncTasksPool")
     public void asyncPost(int no){
-        URI uri = URI.create(URL_BOOKING_TICKETS);
+        URI uri = URI.create(Constant.URL_BOOK_TICKETS);
 
         List<Booking> bookingList = new ArrayList<>();
         bookingList.add(new Booking("beijing-shenyang",1));
