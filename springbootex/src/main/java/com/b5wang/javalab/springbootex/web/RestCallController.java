@@ -32,6 +32,13 @@ public class RestCallController {
         return "ok";
     }
 
+    @GetMapping("/webClient/sync")
+    @ResponseBody
+    public String syncWebClient(){
+        webClientService.syncPost(1000);
+        return "ok";
+    }
+
     @GetMapping("/restTemplate/sync")
     @ResponseBody
     public String restTemplate(){

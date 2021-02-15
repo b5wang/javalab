@@ -3,7 +3,6 @@ package com.b5wang.javalab.springbootex.service;
 import com.b5wang.javalab.springbootex.config.Constant;
 import com.b5wang.javalab.springbootex.model.Booking;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
