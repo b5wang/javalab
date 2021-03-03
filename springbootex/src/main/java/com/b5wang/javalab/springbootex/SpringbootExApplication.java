@@ -29,9 +29,10 @@ public class SpringbootExApplication {
             System.out.println("Chance to do something just after application started");
 
             String[] beanNames = ctx.getBeanDefinitionNames();
+            log.info("-------All beans-------");
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
-                //log.info("{}",beanName);
+                log.info("{}",beanName);
             }
         };
     }
